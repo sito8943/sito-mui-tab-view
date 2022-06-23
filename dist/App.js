@@ -1,11 +1,9 @@
 import { forwardRef } from "react";
+import { Box } from "@mui/material"; // prop-types
 
-import { Box } from "@mui/material";
-
-// prop-types
 import PropTypes from "prop-types";
-
-const SitoContainer = forwardRef((props, ref) => {
+import { jsx as _jsx } from "react/jsx-runtime";
+const SitoContainer = /*#__PURE__*/forwardRef((props, ref) => {
   const {
     background,
     fullWidth,
@@ -20,9 +18,8 @@ const SitoContainer = forwardRef((props, ref) => {
     sx,
     id,
     name,
-    style,
+    style
   } = props;
-
   const newSx = {
     flexDirection,
     display,
@@ -30,25 +27,20 @@ const SitoContainer = forwardRef((props, ref) => {
     justifyContent,
     width: fullWidth ? "100%" : "initial",
     background: background || "transparent",
-    ...sx,
+    ...sx
   };
-
-  return (
-    <Box
-      ref={ref}
-      component={component}
-      style={style}
-      id={id}
-      name={name}
-      sx={newSx}
-      className={className}
-      {...extraProps}
-    >
-      {children}
-    </Box>
-  );
+  return /*#__PURE__*/_jsx(Box, {
+    ref: ref,
+    component: component,
+    style: style,
+    id: id,
+    name: name,
+    sx: newSx,
+    className: className,
+    ...extraProps,
+    children: children
+  });
 });
-
 SitoContainer.defaultProps = {
   component: "div",
   background: "transparent",
@@ -63,9 +55,10 @@ SitoContainer.defaultProps = {
   sx: {},
   style: {},
   extraProps: {},
-  children: <span>This is a container</span>,
+  children: /*#__PURE__*/_jsx("span", {
+    children: "This is a container"
+  })
 };
-
 SitoContainer.propTypes = {
   children: PropTypes.node,
   background: PropTypes.string,
@@ -78,30 +71,12 @@ SitoContainer.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
   fullWidth: PropTypes.bool,
+
   /**
    * The system prop that allows defining system overrides as well as additional CSS styles.
    */
-  sx: PropTypes.oneOfType([
-    PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
-    ),
-    PropTypes.func,
-    PropTypes.object,
-  ]),
-  style: PropTypes.oneOfType([
-    PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
-    ),
-    PropTypes.func,
-    PropTypes.object,
-  ]),
-  extraProps: PropTypes.oneOfType([
-    PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
-    ),
-    PropTypes.func,
-    PropTypes.object,
-  ]),
+  sx: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])), PropTypes.func, PropTypes.object]),
+  style: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])), PropTypes.func, PropTypes.object]),
+  extraProps: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])), PropTypes.func, PropTypes.object])
 };
-
 export default SitoContainer;
