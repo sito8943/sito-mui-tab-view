@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import PropTypes from "prop-types";
 
-function App() {
+import { Box } from "@mui/material";
+
+function SitoContainer(props) {
+  const { children, className, sx, style } = props;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Box id="hola" className={className} sx={sx} style={style}>
+      {children}
+    </Box>
   );
 }
 
-export default App;
+SitoContainer.defaultProps = {
+  className: "",
+  sx: {},
+  style: {},
+  children: <></>,
+};
+
+SitoContainer.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  sx: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
+    ),
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  style: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
+    ),
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+};
+
+export default SitoContainer;
