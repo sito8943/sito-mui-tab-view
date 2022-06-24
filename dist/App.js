@@ -1,5 +1,6 @@
-import { forwardRef } from "react";
-import { Box } from "@mui/material"; // prop-types
+import { forwardRef } from "react"; // @emotion
+
+import { css } from "@emotion/css"; // prop-types
 
 import PropTypes from "prop-types";
 import { jsx as _jsx } from "react/jsx-runtime";
@@ -20,7 +21,7 @@ const SitoContainer = /*#__PURE__*/forwardRef((props, ref) => {
     name,
     style
   } = props;
-  const newSx = {
+  const newSx = css({
     flexDirection,
     display,
     alignItems,
@@ -28,15 +29,13 @@ const SitoContainer = /*#__PURE__*/forwardRef((props, ref) => {
     width: fullWidth ? "100%" : "initial",
     background: background || "transparent",
     ...sx
-  };
-  return /*#__PURE__*/_jsx(Box, {
+  });
+  return /*#__PURE__*/_jsx("div", {
     ref: ref,
-    component: component,
     style: style,
     id: id,
     name: name,
-    sx: newSx,
-    className: className,
+    className: `${className} ${newSx}`,
     ...extraProps,
     children: children
   });
