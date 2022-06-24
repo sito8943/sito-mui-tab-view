@@ -1,5 +1,6 @@
 {
   "name": "sito-container",
+  "main": "dist/App.js",
   "description": "Contenedor súper flexible, muy parecido al Box de @mui, pero por defecto es flex",
   "version": "0.1.0",
   "private": true,
