@@ -7,12 +7,9 @@
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
-    "@mui/material": "^5.8.5",
-    "@mui/styled-engine-sc": "^5.8.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "styled-components": "^5.3.5"
+    "react-scripts": "5.0.1"
   },
   "license": "MIT",
   "author": "SitoNimbus",
@@ -45,7 +42,6 @@
   "keywords": [
     "container",
     "react",
-    "@mui",
     "@emotion"
   ],
   "devDependencies": {
