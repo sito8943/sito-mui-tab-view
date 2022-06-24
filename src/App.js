@@ -49,7 +49,6 @@ const SitoContainer = forwardRef((props, ref) => {
 });
 
 SitoContainer.defaultProps = {
-  component: "div",
   background: "transparent",
   display: "flex",
   alignItems: "left",
@@ -69,7 +68,6 @@ SitoContainer.propTypes = {
   children: PropTypes.node,
   background: PropTypes.string,
   display: PropTypes.string,
-  component: PropTypes.string,
   flexDirection: PropTypes.string,
   className: PropTypes.string,
   alignItems: PropTypes.string,
