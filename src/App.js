@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 
-import { Box } from "@mui/material";
+// @emotion
+import { css } from "@emotion/css";
 
 // prop-types
 import PropTypes from "prop-types";
@@ -23,7 +24,7 @@ const SitoContainer = forwardRef((props, ref) => {
     style,
   } = props;
 
-  const newSx = {
+  const newSx = css({
     flexDirection,
     display,
     alignItems,
@@ -31,21 +32,19 @@ const SitoContainer = forwardRef((props, ref) => {
     width: fullWidth ? "100%" : "initial",
     background: background || "transparent",
     ...sx,
-  };
+  });
 
   return (
-    <Box
+    <div
       ref={ref}
-      component={component}
       style={style}
       id={id}
       name={name}
-      sx={newSx}
-      className={className}
+      className={`${className} ${newSx}`}
       {...extraProps}
     >
       {children}
-    </Box>
+    </div>
   );
 });
 
