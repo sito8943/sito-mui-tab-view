@@ -11,7 +11,6 @@ const SitoContainer = forwardRef((props, ref) => {
     background,
     fullWidth,
     extraProps,
-    component,
     children,
     display,
     alignItems,
