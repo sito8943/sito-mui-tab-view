@@ -60,7 +60,7 @@ SitoContainer.defaultProps = {
   sx: {},
   style: {},
   extraProps: {},
-  children: <span>This is a container</span>,
+  children: <></>,
 };
 
 SitoContainer.propTypes = {
