@@ -4,7 +4,7 @@ import { css } from "@emotion/css"; // prop-types
 
 import PropTypes from "prop-types";
 import { jsx as _jsx } from "react/jsx-runtime";
-const SitoContainer = /*#__PURE__*/forwardRef((props, ref) => {
+const SitoContainer = /*#__PURE__*/ forwardRef((props, ref) => {
   const {
     background,
     fullWidth,
@@ -18,7 +18,7 @@ const SitoContainer = /*#__PURE__*/forwardRef((props, ref) => {
     sx,
     id,
     name,
-    style
+    style,
   } = props;
   const newSx = css({
     flexDirection,
@@ -27,16 +27,16 @@ const SitoContainer = /*#__PURE__*/forwardRef((props, ref) => {
     justifyContent,
     width: fullWidth ? "100%" : "initial",
     background: background || "transparent",
-    ...sx
+    ...sx,
   });
-  return /*#__PURE__*/_jsx("div", {
+  return /*#__PURE__*/ _jsx("div", {
     ref: ref,
     style: style,
     id: id,
     name: name,
     className: `${className} ${newSx}`,
     ...extraProps,
-    children: children
+    children: children,
   });
 });
 SitoContainer.defaultProps = {
@@ -52,9 +52,7 @@ SitoContainer.defaultProps = {
   sx: {},
   style: {},
   extraProps: {},
-  children: /*#__PURE__*/_jsx("span", {
-    children: "This is a container"
-  })
+  children: /*#__PURE__*/ _jsx(_Fragment, {}),
 };
 SitoContainer.propTypes = {
   children: PropTypes.node,
@@ -71,8 +69,26 @@ SitoContainer.propTypes = {
   /**
    * The system prop that allows defining system overrides as well as additional CSS styles.
    */
-  sx: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])), PropTypes.func, PropTypes.object]),
-  style: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])), PropTypes.func, PropTypes.object]),
-  extraProps: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])), PropTypes.func, PropTypes.object])
+  sx: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
+    ),
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  style: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
+    ),
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  extraProps: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
+    ),
+    PropTypes.func,
+    PropTypes.object,
+  ]),
 };
 export default SitoContainer;
