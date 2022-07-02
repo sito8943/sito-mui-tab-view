@@ -2,7 +2,7 @@
   "name": "sito-container",
   "main": "dist/App.js",
   "description": "Contenedor súper flexible, muy parecido al Box de @mui, pero por defecto es flex",
-  "version": "0.2.19",
+  "version": "0.2.20",
   "private": false,
   "dependencies": {
     "@emotion/css": "^11.9.0",
