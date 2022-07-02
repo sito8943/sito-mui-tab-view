@@ -28,8 +28,8 @@ const SitoContainer = forwardRef((props, ref) => {
     display,
     alignItems,
     justifyContent,
-    width: fullWidth ? "100%" : "initial",
-    background: background || "transparent",
+    width: fullWidth ? "100%" : undefined,
+    background: background || undefined,
     ...sx,
   });
 
@@ -48,7 +48,7 @@ const SitoContainer = forwardRef((props, ref) => {
 });
 
 SitoContainer.defaultProps = {
-  background: "transparent",
+  background: undefined,
   display: "flex",
   alignItems: "left",
   justifyContent: "left",
