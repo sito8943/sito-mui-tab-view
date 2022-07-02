@@ -9,6 +9,7 @@ const SitoContainer = /*#__PURE__*/ forwardRef((props, ref) => {
   const {
     background,
     fullWidth,
+    ignoreDefault,
     extraProps,
     children,
     display,
@@ -21,11 +22,14 @@ const SitoContainer = /*#__PURE__*/ forwardRef((props, ref) => {
     name,
     style,
   } = props;
+  const defaultProps = {
+    flexDirection: !ignoreDefault ? flexDirection : undefined,
+    display: !ignoreDefault ? display : undefined,
+    alignItems: !ignoreDefault ? alignItems : undefined,
+    justifyContent: !ignoreDefault ? justifyContent : undefined,
+  };
   const newSx = css({
-    flexDirection,
-    display,
-    alignItems,
-    justifyContent,
+    ...defaultProps,
     width: fullWidth ? "100%" : undefined,
     background: background || undefined,
     ...sx,
@@ -50,6 +54,7 @@ SitoContainer.defaultProps = {
   id: "",
   name: "",
   fullWidth: false,
+  ignoreDefault: false,
   sx: {},
   style: {},
   extraProps: {},
@@ -66,6 +71,7 @@ SitoContainer.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
   fullWidth: PropTypes.bool,
+  ignoreDefault: PropTypes.bool,
 
   /**
    * The system prop that allows defining system overrides as well as additional CSS styles.
