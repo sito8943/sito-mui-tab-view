@@ -4,6 +4,7 @@ import { css } from "@emotion/css"; // prop-types
 
 import PropTypes from "prop-types";
 import { jsx as _jsx } from "react/jsx-runtime";
+import { Fragment as _Fragment } from "react/jsx-runtime";
 const SitoContainer = /*#__PURE__*/ forwardRef((props, ref) => {
   const {
     background,
@@ -26,7 +27,7 @@ const SitoContainer = /*#__PURE__*/ forwardRef((props, ref) => {
     alignItems,
     justifyContent,
     width: fullWidth ? "100%" : undefined,
-    background,
+    background: background || undefined,
     ...sx,
   });
   return /*#__PURE__*/ _jsx("div", {
