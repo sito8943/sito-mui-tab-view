@@ -47,9 +47,9 @@ const SitoContainer = /*#__PURE__*/ forwardRef((props, ref) => {
 SitoContainer.defaultProps = {
   background: undefined,
   display: "flex",
-  alignItems: "left",
-  justifyContent: "left",
-  flexDirection: "row",
+  alignItems: undefined,
+  justifyContent: undefined,
+  flexDirection: undefined,
   className: "",
   id: "",
   name: "",
