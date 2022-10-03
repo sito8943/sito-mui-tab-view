@@ -1,110 +1,114 @@
-import { forwardRef } from "react";
+import { useState } from "react";
 
-// @emotion
-import { css } from "@emotion/css";
-
-// prop-types
+// prop types
 import PropTypes from "prop-types";
 
-const SitoContainer = forwardRef((props, ref) => {
-  const {
-    background,
-    fullWidth,
-    ignoreDefault,
-    extraProps,
-    children,
-    display,
-    alignItems,
-    justifyContent,
-    flexDirection,
-    className,
-    sx,
-    id,
-    name,
-    style,
-  } = props;
+// @mui components
+import { Tabs, Tab, Box } from "@mui/material";
 
-  const defaultProps = {
-    flexDirection: !ignoreDefault ? flexDirection : undefined,
-    display: !ignoreDefault ? display : undefined,
-    alignItems: !ignoreDefault ? alignItems : undefined,
-    justifyContent: !ignoreDefault ? justifyContent : undefined,
-  };
-
-  const newSx = css({
-    ...defaultProps,
-    width: fullWidth ? "100%" : undefined,
-    background: background || undefined,
-    ...sx,
-  });
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
 
   return (
-    <div
-      ref={ref}
-      style={style}
-      id={id}
-      name={name}
-      className={`${className} ${newSx}`}
-      {...extraProps}
+    <Box
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`tab-${index}`}
+      {...other}
     >
-      {children}
-    </div>
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </Box>
   );
-});
+}
 
-SitoContainer.defaultProps = {
-  background: undefined,
-  display: "flex",
-  alignItems: undefined,
-  justifyContent: undefined,
-  flexDirection: undefined,
-  className: "",
-  id: "",
-  name: "",
-  fullWidth: false,
-  ignoreDefault: false,
+TabPanel.propTypes = {
+  children: PropTypes.node.isRequired,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+const TabView = (props) => {
+  const {
+    content,
+    tabs,
+    value,
+    onChange,
+    tabsAtTop,
+    tabsAtBottom,
+    sx,
+    tabsContainerSx,
+    contentSx,
+  } = props;
+
+  const [localTab, setLocalTab] = useState(0);
+
+  const localOnChange = (event, newTab) => setLocalTab(newTab);
+
+  return (
+    <Box sx={{ width: "100%", ...sx }}>
+      {tabsAtTop && (
+        <Box
+          sx={{ borderBottom: 1, borderColor: "divider", ...tabsContainerSx }}
+        >
+          <Tabs
+            textColor="primary"
+            indicatorColor="primary"
+            value={value || localTab}
+            onChange={onChange || localOnChange}
+          >
+            {tabs.map((item, i) => (
+              <Tab component="a" href={`#${item}`} key={item} label={item} />
+            ))}
+          </Tabs>
+        </Box>
+      )}
+      {content.map((item, i) => (
+        <TabPanel key={`tc${i}`} value={value || localTab} index={i}>
+          {item}
+        </TabPanel>
+      ))}
+      {tabsAtBottom && (
+        <Box
+          sx={{ borderBottom: 1, borderColor: "divider", ...tabsContainerSx }}
+        >
+          <Tabs
+            textColor="primary"
+            indicatorColor="primary"
+            value={value}
+            onChange={onChange}
+            sx={{ ...contentSx }}
+          >
+            {tabs.map((item, i) => (
+              <Tab component="a" href={`#${item}`} key={item} label={item} />
+            ))}
+          </Tabs>
+        </Box>
+      )}
+    </Box>
+  );
+};
+
+TabView.defaultProps = {
+  tabsAtTop: true,
+  tabsAtBottom: false,
+  onChange: undefined,
+  value: 0,
   sx: {},
-  style: {},
-  extraProps: {},
-  children: <></>,
+  tabsContainerSx: {},
+  contentSx: {},
 };
 
-SitoContainer.propTypes = {
-  children: PropTypes.node,
-  background: PropTypes.string,
-  display: PropTypes.string,
-  flexDirection: PropTypes.string,
-  className: PropTypes.string,
-  alignItems: PropTypes.string,
-  justifyContent: PropTypes.string,
-  id: PropTypes.string,
-  name: PropTypes.string,
-  fullWidth: PropTypes.bool,
-  ignoreDefault: PropTypes.bool,
-  /**
-   * The system prop that allows defining system overrides as well as additional CSS styles.
-   */
-  sx: PropTypes.oneOfType([
-    PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
-    ),
-    PropTypes.func,
-    PropTypes.object,
-  ]),
-  style: PropTypes.oneOfType([
-    PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
-    ),
-    PropTypes.func,
-    PropTypes.object,
-  ]),
-  extraProps: PropTypes.oneOfType([
-    PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
-    ),
-    PropTypes.func,
-    PropTypes.object,
-  ]),
+TabView.propTypes = {
+  tabsAtTop: PropTypes.bool,
+  tabsAtBottom: PropTypes.bool,
+  content: PropTypes.arrayOf(PropTypes.node).isRequired,
+  tabs: PropTypes.arrayOf(PropTypes.string).isRequired,
+  value: PropTypes.number,
+  onChange: PropTypes.func,
+  sx: PropTypes.object,
+  tabsContainerSx: PropTypes.object,
+  contentSx: PropTypes.object,
 };
 
-export default SitoContainer;
+export default TabView;

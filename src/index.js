@@ -1,7 +1,6 @@
 import { StrictMode } from "react";
 import * as ReactDOMClient from "react-dom/client";
-
-import SitoContainer from "./App";
+import TabView from "./App";
 
 const container = document.getElementById("root");
 
@@ -11,6 +10,9 @@ const root = ReactDOMClient.createRoot(container);
 // Initial render: Render an element to the root.
 root.render(
   <StrictMode>
-    <SitoContainer>Hola Mundo</SitoContainer>
+    <TabView
+      tabs={["Hola", "Adiós"]}
+      content={[<div>Hola</div>, <div>Adiós</div>]}
+    />
   </StrictMode>
 );
