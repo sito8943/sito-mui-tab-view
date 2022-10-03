@@ -32,7 +32,7 @@ function App() {
 
 ```
 
-Yo can add your css rules, like `sx` prop for [styled-component](https://emotion.sh/docs/introduction), `style` prop like inline css styles and classNames from your css files
+You can add your css rules, like `sx` prop for [styled-component](https://emotion.sh/docs/introduction), `style` prop like inline css styles and classNames from your css files
 
 ```
 import SitoContainer as Container from "sito-container";
