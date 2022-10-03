@@ -2,7 +2,7 @@
   "name": "sito-container",
   "main": "dist/App.js",
   "description": "Component con tabs dinámicas súper flexible",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "dependencies": {
     "@emotion/css": "^11.9.0",

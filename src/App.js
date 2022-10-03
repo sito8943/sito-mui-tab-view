@@ -13,7 +13,7 @@ function TabPanel(props) {
     <Box
       role="tabpanel"
       hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
+      id={`tabpanel-${index}`}
       aria-labelledby={`tab-${index}`}
       {...other}
     >
@@ -30,6 +30,7 @@ TabPanel.propTypes = {
 
 const TabView = (props) => {
   const {
+    color,
     content,
     tabs,
     value,
@@ -38,6 +39,7 @@ const TabView = (props) => {
     tabsAtBottom,
     sx,
     tabsContainerSx,
+    tabsSx,
     contentSx,
   } = props;
 
@@ -52,10 +54,11 @@ const TabView = (props) => {
           sx={{ borderBottom: 1, borderColor: "divider", ...tabsContainerSx }}
         >
           <Tabs
-            textColor="primary"
-            indicatorColor="primary"
+            textColor={color}
+            indicatorColor={color}
             value={value || localTab}
             onChange={onChange || localOnChange}
+            sx={{ ...tabsSx }}
           >
             {tabs.map((item, i) => (
               <Tab component="a" href={`#${item}`} key={item} label={item} />
@@ -90,16 +93,19 @@ const TabView = (props) => {
 };
 
 TabView.defaultProps = {
+  color: "primary",
   tabsAtTop: true,
   tabsAtBottom: false,
   onChange: undefined,
   value: 0,
   sx: {},
   tabsContainerSx: {},
+  tabsSx: {},
   contentSx: {},
 };
 
 TabView.propTypes = {
+  color: PropTypes.string,
   tabsAtTop: PropTypes.bool,
   tabsAtBottom: PropTypes.bool,
   content: PropTypes.arrayOf(PropTypes.node).isRequired,
@@ -108,6 +114,7 @@ TabView.propTypes = {
   onChange: PropTypes.func,
   sx: PropTypes.object,
   tabsContainerSx: PropTypes.object,
+  tabsSx: PropTypes.object,
   contentSx: PropTypes.object,
 };
 
