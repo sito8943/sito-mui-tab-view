@@ -1,8 +1,8 @@
 {
   "name": "sito-mui-tab-view",
   "main": "dist/App.js",
-  "description": "Component con tabs dinámicas súper flexible",
-  "version": "0.1.1",
+  "description": "Componente con tabs dinámicas súper flexible",
+  "version": "0.2.1",
   "private": false,
   "dependencies": {
     "@emotion/css": "^11.9.0",
