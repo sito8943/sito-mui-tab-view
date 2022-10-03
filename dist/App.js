@@ -31,8 +31,11 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-const TabView = (props) => {
+const SitoMUITabView = (props) => {
   const {
+    id,
+    name,
+    className,
     color,
     content,
     tabs,
@@ -44,16 +47,21 @@ const TabView = (props) => {
     tabsContainerSx,
     tabsSx,
     contentSx,
+    style,
   } = props;
   const [localTab, setLocalTab] = useState(0);
 
   const localOnChange = (event, newTab) => setLocalTab(newTab);
 
   return /*#__PURE__*/ _jsxs(Box, {
+    id: id,
+    name: name,
+    className: className,
     sx: {
       width: "100%",
       ...sx,
     },
+    style: { ...style },
     children: [
       tabsAtTop &&
         /*#__PURE__*/ _jsx(Box, {
@@ -122,7 +130,10 @@ const TabView = (props) => {
   });
 };
 
-TabView.defaultProps = {
+SitoMUITabView.defaultProps = {
+  id: undefined,
+  name: undefined,
+  className: undefined,
   color: "primary",
   tabsAtTop: true,
   tabsAtBottom: false,
@@ -132,8 +143,12 @@ TabView.defaultProps = {
   tabsContainerSx: {},
   tabsSx: {},
   contentSx: {},
+  style: {},
 };
-TabView.propTypes = {
+SitoMUITabView.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+  className: PropTypes.string,
   color: PropTypes.string,
   tabsAtTop: PropTypes.bool,
   tabsAtBottom: PropTypes.bool,
@@ -141,9 +156,40 @@ TabView.propTypes = {
   tabs: PropTypes.arrayOf(PropTypes.string).isRequired,
   value: PropTypes.number,
   onChange: PropTypes.func,
-  sx: PropTypes.object,
-  tabsContainerSx: PropTypes.object,
-  tabsSx: PropTypes.object,
-  contentSx: PropTypes.object,
+  sx: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
+    ),
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  tabsContainerSx: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
+    ),
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  tabsSx: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
+    ),
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  contentSx: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
+    ),
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  style: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
+    ),
+    PropTypes.func,
+    PropTypes.object,
+  ]),
 };
-export default TabView;
+export default SitoMUITabView;
