@@ -1,6 +1,6 @@
-# Sito Mui TabView
+# Sito MUI TabView
 
-Component with dynamics tabs super flexible
+Tabs make it easy to explore and switch between different views.
 
 ### How to use it?
 
