@@ -1,6 +1,6 @@
-# Sito Container
+# Sito MUI TabView
 
-Super flexible container, very similar to @mui's Box, but defaults to flex
+Tabs make it easy to explore and switch between different views.
 
 ### How to use it?
 

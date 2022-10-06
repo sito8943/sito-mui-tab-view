@@ -2,7 +2,7 @@
   "name": "sito-mui-tab-view",
   "main": "dist/App.js",
   "description": "Componente con tabs dinámicas súper flexible",
-  "version": "0.3.2",
+  "version": "0.4.1",
   "private": false,
   "dependencies": {
     "@emotion/css": "^11.9.0",
@@ -49,6 +49,7 @@
   ],
   "devDependencies": {
     "@babel/cli": "^7.17.6",
-    "@babel/preset-react": "^7.16.7"
+    "@babel/preset-react": "^7.16.7",
+    "babel-preset-minify": "^0.5.2"
   }
 }
