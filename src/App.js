@@ -126,11 +126,9 @@ ComplexTableHead.defaultProps = {
   sx: {},
   rowSx: {},
   cellSx: {},
-  disablePadding: false,
 };
 
 ComplexTableHead.propTypes = {
-  disablePadding: PropTypes.bool,
   orderBy: PropTypes.string.isRequired,
   numSelected: PropTypes.number.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
@@ -427,7 +425,12 @@ export default function ComplexTable(props) {
   };
 
   return (
-    <Box sx={{ width: "100%", ...sx }}>
+    <Box
+      id={id}
+      name={name}
+      className={className}
+      sx={{ width: "100%", ...sx }}
+    >
       <ComplexTableToolbar
         sx={{ ...toolbarSx }}
         numSelected={selected.length}
