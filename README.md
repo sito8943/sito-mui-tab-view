@@ -1,34 +1,28 @@
-# Sito MUI TabView
+# Sito MUI ComplexTable
 
-Tabs make it easy to explore and switch between different views.
+Tables display sets of data. They can be fully customized.
 
 ### How to use it?
 
 ```
-import SitoMUITabView from "sito-mui-tab-view";
+import SitoMUIComplexTable from "sito-mui-complex-table";
 
 function App() {
     return {
-        <SitoMUITabView
-            tabs={["Hola", "Adiós"]}
-            content={[<div>Hola</div>, <div>Adiós</div>]}
-        />
+        <ComplexTable columns={columns} rows={rows} />
     }
 }
 
 ```
 
-You can change the name of the tab view, if you don't like its name 😂
+You can change the name of the complex table, if you don't like its name 😂
 
 ```
-import SitoMUITabView as TabView from "sito-mui-tab-view";
+import SitoMUIComplexTable as ComplexTable from "sito-mui-complex-table";
 
 function App() {
     return {
-        <TabView
-            tabs={["Hola", "Adiós"]}
-            content={[<div>Hola</div>, <div>Adiós</div>]}
-        />
+        <ComplexTable columns={columns} rows={rows} />
     }
 }
 
@@ -41,10 +35,10 @@ import SitoMUITabView from "sito-mui-tab-view";
 
 function App() {
     return {
-        <SitoMUITabView
+        <ComplexTable
             sx={{ width: "350px", height: "350px" }}
-            tabs={["Hola", "Adiós"]}
-            content={[<div>Hola</div>, <div>Adiós</div>]}
+            columns={columns}
+            rows={rows}
         />
     }
 }
@@ -53,22 +47,20 @@ function App() {
 
 ## Props
 
-| Name            | Type                                                                    | Default   | Description                                                                                              |
-| --------------- | ----------------------------------------------------------------------- | --------- | -------------------------------------------------------------------------------------------------------- |
-| id              | string                                                                  |           | html identifier                                                                                          |
-| name            | string                                                                  |           | html name                                                                                                |
-| className       | string                                                                  |           | css class name                                                                                           |
-| color           | string                                                                  | "primary" | color for the indicator and text of the tabs                                                             |
-| tabsAtTop       | boolean                                                                 | true      | show tabs row at top                                                                                     |
-| tabsAtBottom    | boolean                                                                 | false     | show tabs row at bottom                                                                                  |
-| content         | Array<node>                                                             | []        | array of node children                                                                                   |
-| tabs            | Array<string>                                                           | []        | array of labels of tabs                                                                                  |
-| value           | number                                                                  |           | current tab                                                                                              |
-| onChange        | func (event, newTab)                                                    |           | tab event handler when change the current tab                                                            |
-| sx              | Array<func<br>\| object<br><br>\| bool><br><br>\| func<br><br>\| object |           | The system prop that allows defining system overrides as well as additional CSS styles.                  |
-| tabsContainerSx | Array<func<br>\| object<br><br>\| bool><br><br>\| func<br><br>\| object |           | The system prop that allows defining system overrides as well as additional CSS styles for tabs row.     |
-| tabsSx          | Array<func<br>\| object<br><br>\| bool><br><br>\| func<br><br>\| object |           | The system prop that allows defining system overrides as well as additional CSS styles for each tab.     |
-| contentSx       | Array<func<br>\| object<br><br>\| bool><br><br>\| func<br><br>\| object |           | The system prop that allows defining system overrides as well as additional CSS styles for each content. |
-| style           | Array<func<br>\| object<br><br>\| bool><br><br>\| func<br><br>\| object |           | inline css                                                                                               |
+| Name               | Type                                                                    | Default                                                                                                                 | Description                                                                                              |
+| ------------------ | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| id                 | string                                                                  |                                                                                                                         | html identifier                                                                                          |
+| name               | string                                                                  |                                                                                                                         | html name                                                                                                |
+| className          | string                                                                  |                                                                                                                         | css class name                                                                                           |
+| textForNSelected   | string                                                                  |                                                                                                                         | text to show when n elements are selected                                                                |
+| textForOneSelected | string                                                                  |                                                                                                                         | text to show when an elements is selected                                                                |
+| textForEmptyField  | string                                                                  |                                                                                                                         | text to show when a field is empty                                                                       |
+| textForPagination  | string                                                                  |                                                                                                                         | text to show in pagination section                                                                       |
+| sortFunction       | function                                                                | stableSort(array: list of rows, order: "asc" / "desc", orderBy: attribute to order by, emptyField: text of empty field) | function to sort rows. Note: it should returns a sorted array                                            |
+| sx                 | Array<func<br>\| object<br><br>\| bool><br><br>\| func<br><br>\| object |                                                                                                                         | The system prop that allows defining system overrides as well as additional CSS styles.                  |
+| tabsContainerSx    | Array<func<br>\| object<br><br>\| bool><br><br>\| func<br><br>\| object |                                                                                                                         | The system prop that allows defining system overrides as well as additional CSS styles for tabs row.     |
+| toolbarSx          | Array<func<br>\| object<br><br>\| bool><br><br>\| func<br><br>\| object |                                                                                                                         | The system prop that allows defining system overrides as well as additional CSS styles for each tab.     |
+| tableContainerSx   | Array<func<br>\| object<br><br>\| bool><br><br>\| func<br><br>\| object |                                                                                                                         | The system prop that allows defining system overrides as well as additional CSS styles for each content. |
+| paginationSx       | Array<func<br>\| object<br><br>\| bool><br><br>\| func<br><br>\| object |                                                                                                                         | The system prop that allows defining system overrides as well as additional CSS styles for each content. |
 
 🙌 Good luck out there my friend 🙌

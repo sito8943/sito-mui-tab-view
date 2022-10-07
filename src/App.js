@@ -306,6 +306,9 @@ const TablePaginationActions = (props) => {
 
 export default function ComplexTable(props) {
   const {
+    id,
+    className,
+    name,
     columns,
     rows,
     sx,
@@ -526,6 +529,9 @@ export default function ComplexTable(props) {
 }
 
 ComplexTable.defaultProps = {
+  id: undefined,
+  name: undefined,
+  className: undefined,
   sx: {},
   toolbarSx: {},
   tableContainerSx: {},
@@ -545,6 +551,9 @@ ComplexTable.defaultProps = {
 };
 
 ComplexTable.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+  className: PropTypes.string,
   sortFunction: PropTypes.func,
   handleChangePage: PropTypes.func,
   handleChangeRowsPerPage: PropTypes.func,

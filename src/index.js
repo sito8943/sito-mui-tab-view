@@ -39,10 +39,6 @@ const singleSelectFunctions = [
 // Initial render: Render an element to the root.
 root.render(
   <StrictMode>
-    <ComplexTable
-      columns={columns}
-      rows={rows}
-      singleSelectFunctions={singleSelectFunctions}
-    />
+    <ComplexTable columns={columns} rows={rows} />
   </StrictMode>
 );
