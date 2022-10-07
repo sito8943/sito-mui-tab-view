@@ -6,6 +6,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 
 import {
+  useTheme,
   Box,
   Table,
   TableBody,
@@ -22,6 +23,12 @@ import {
   Toolbar,
 } from "@mui/material";
 
+// @mui/icons-material
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import LastPageIcon from "@mui/icons-material/LastPage";
+
 // @mui styles
 import { alpha } from "@mui/material/styles";
 
@@ -30,10 +37,18 @@ import { visuallyHidden } from "@mui/utils";
 
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
-function stableSort(array, order, orderBy) {
+/**
+ *
+ * @param {object[]} array - objects to sort
+ * @param {string} order - asc / desc order
+ * @param {string[]} orderBy - attribute to order by
+ * @param {string} emptyField - text for empty field
+ * @returns
+ */
+function stableSort(array, order, orderBy, emptyField) {
   const stabilizedThis = array.sort((itemA, itemB) => {
-    const valueA = itemA[orderBy] === "No tiene" ? 0 : itemA[orderBy];
-    const valueB = itemB[orderBy] === "No tiene" ? 0 : itemB[orderBy];
+    const valueA = itemA[orderBy] === emptyField ? 0 : itemA[orderBy];
+    const valueB = itemB[orderBy] === emptyField ? 0 : itemB[orderBy];
     if (valueA < valueB) {
       if (order === "asc") return -1;
       return 1;
@@ -60,7 +75,6 @@ function ComplexTableHead(props) {
     sx,
     rowSx,
     cellSx,
-    disablePadding,
   } = props;
 
   const createSortHandler = (property) => (event) =>
@@ -84,15 +98,15 @@ function ComplexTableHead(props) {
           <TableCell
             sx={{ ...cellSx }}
             key={headCell.id}
-            align="left"
-            padding={disablePadding ? "none" : "normal"}
+            align={headCell.align}
+            padding={headCell.padding}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
-              sx={{ width: headCell.id === "id" ? "90px" : "150px" }}
+              sx={{ width: headCell.width }}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
@@ -245,6 +259,51 @@ ComplexTableToolbar.propTypes = {
   ]),
 };
 
+const TablePaginationActions = (props) => {
+  const theme = useTheme();
+  const { count, page, rowsPerPage, onPageChange } = props;
+
+  const handleFirstPageButtonClick = (event) => onPageChange(event, 0);
+
+  const handleBackButtonClick = (event) => onPageChange(event, page - 1);
+
+  const handleNextButtonClick = (event) => onPageChange(event, page + 1);
+
+  const handleLastPageButtonClick = (event) =>
+    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+
+  return (
+    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+      <IconButton onClick={handleFirstPageButtonClick} disabled={page === 0}>
+        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
+      </IconButton>
+      <IconButton onClick={handleBackButtonClick} disabled={page === 0}>
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowRight />
+        ) : (
+          <KeyboardArrowLeft />
+        )}
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+      >
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowLeft />
+        ) : (
+          <KeyboardArrowRight />
+        )}
+      </IconButton>
+      <IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+      >
+        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
+      </IconButton>
+    </Box>
+  );
+};
+
 export default function ComplexTable(props) {
   const {
     columns,
@@ -253,17 +312,36 @@ export default function ComplexTable(props) {
     toolbarSx,
     tableContainerSx,
     paginationSx,
+    currentPage,
+    handleChangePage,
+    handleChangeRowsPerPage,
+    componentForPaginationActions,
+    rowsPerPageOptions,
     singleSelectFunctions,
     multipleSelectFunctions,
     textForNSelected,
     textForOneSelected,
+    textForEmptyField,
+    textForPagination,
     sortFunction,
   } = props;
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("calories");
+  const [orderBy, setOrderBy] = useState("id");
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
+
+  const headerAlign = (column) => {
+    for (const item of columns) if (column === item.id) return item.align;
+  };
+
+  const headerWidth = (column) => {
+    for (const item of columns) if (column === item.id) return item.width;
+  };
+
+  const headerPadding = (column) => {
+    for (const item of columns) if (column === item.id) return item.padding;
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -324,9 +402,9 @@ export default function ComplexTable(props) {
     else setSelected(newSelected);
   };
 
-  const handleChangePage = (event, newPage) => setPage(newPage);
+  const localHandleChangePage = (event, newPage) => setPage(newPage);
 
-  const handleChangeRowsPerPage = (event) => {
+  const localHandleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -342,18 +420,21 @@ export default function ComplexTable(props) {
       const { tooltip, func, icon } = item;
       return { tooltip, func: () => func(selected), icon };
     });
+    return selectFunction;
   };
 
   return (
     <Box sx={{ width: "100%", ...sx }}>
       <ComplexTableToolbar
-        numSelected={selected.length}
         sx={{ ...toolbarSx }}
+        numSelected={selected.length}
+        textForNSelected={textForNSelected}
+        textForOneSelected={textForOneSelected}
         singleSelectFunctions={parsedSelectFunctions(singleSelectFunctions)}
         multipleSelectFunctions={parsedSelectFunctions(multipleSelectFunctions)}
       />
       <TableContainer sx={{ ...tableContainerSx }}>
-        <Table sx={{ minWidth: 500 }} size="medium">
+        <Table size="medium">
           <ComplexTableHead
             columns={columns}
             numSelected={selected.length}
@@ -368,7 +449,7 @@ export default function ComplexTable(props) {
           <TableBody>
             {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-            {sortFunction(rows, order, orderBy)
+            {sortFunction(rows, order, orderBy, textForEmptyField)
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
                 const isItemSelected = isSelected(row.id);
@@ -385,26 +466,19 @@ export default function ComplexTable(props) {
                     selected={isItemSelected}
                   >
                     <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          "aria-labelledby": labelId,
-                        }}
-                      />
+                      <Checkbox color="primary" checked={isItemSelected} />
                     </TableCell>
                     {Object.keys(row).map((item) => (
                       <TableCell
                         key={item}
-                        align="left"
+                        align={headerAlign(item)}
                         component={item === "id" ? "th" : "td"}
                         id={labelId}
                         scope="row"
-                        padding="none"
+                        padding={headerPadding(item)}
                         sx={{
                           span: {
-                            marginLeft: item === "id" ? 0 : "20px",
-                            width: item === "id" ? "90px" : "100px",
+                            width: headerWidth(item),
                             textOverflow: "ellipsis",
                             overflow: "hidden",
                             whiteSpace: "nowrap",
@@ -430,13 +504,21 @@ export default function ComplexTable(props) {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPageOptions={rowsPerPageOptions}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+        page={handleChangePage ? currentPage : page}
+        onPageChange={handleChangePage || localHandleChangePage}
+        onRowsPerPageChange={
+          handleChangeRowsPerPage || localHandleChangeRowsPerPage
+        }
+        ActionsComponent={componentForPaginationActions}
+        SelectProps={{
+          inputProps: {
+            "aria-label": textForPagination,
+          },
+        }}
         sx={{ ...paginationSx }}
       />
     </Box>
@@ -448,19 +530,47 @@ ComplexTable.defaultProps = {
   toolbarSx: {},
   tableContainerSx: {},
   paginationSx: {},
+  rowsPerPageOptions: [5, 10, 25],
+  componentForPaginationActions: TablePaginationActions,
   singleSelectFunctions: [],
   multipleSelectFunctions: [],
   textForNSelected: "selected",
   textForOneSelected: "selected",
+  textForEmptyField: "empty",
+  textForPagination: "Rows per page",
   sortFunction: stableSort,
+  currentPage: 0,
+  handleChangePage: undefined,
+  handleChangeRowsPerPage: undefined,
 };
 
 ComplexTable.propTypes = {
   sortFunction: PropTypes.func,
-  textForNSelected: PropTypes.string.isRequired,
-  textForOneSelected: PropTypes.string.isRequired,
+  handleChangePage: PropTypes.func,
+  handleChangeRowsPerPage: PropTypes.func,
+  componentForPaginationActions: PropTypes.elementType,
+  currentPage: PropTypes.number,
+  textForNSelected: PropTypes.string,
+  textForOneSelected: PropTypes.string,
+  textForEmptyField: PropTypes.string,
+  textForPagination: PropTypes.string,
   columns: PropTypes.array.isRequired,
   rows: PropTypes.array.isRequired,
+  rowsPerPageOptions: PropTypes.arrayOf(PropTypes.number),
+  singleSelectFunctions: PropTypes.arrayOf(
+    PropTypes.shape({
+      tooltip: PropTypes.string,
+      func: PropTypes.func,
+      icon: PropTypes.node,
+    })
+  ),
+  multipleSelectFunctions: PropTypes.arrayOf(
+    PropTypes.shape({
+      tooltip: PropTypes.string,
+      func: PropTypes.func,
+      icon: PropTypes.node,
+    })
+  ),
   sx: PropTypes.oneOfType([
     PropTypes.arrayOf(
       PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
@@ -489,18 +599,4 @@ ComplexTable.propTypes = {
     PropTypes.func,
     PropTypes.object,
   ]),
-  singleSelectFunctions: PropTypes.arrayOf(
-    PropTypes.shape({
-      tooltip: PropTypes.string,
-      func: PropTypes.func,
-      icon: PropTypes.node,
-    })
-  ),
-  multipleSelectFunctions: PropTypes.arrayOf(
-    PropTypes.shape({
-      tooltip: PropTypes.string,
-      func: PropTypes.func,
-      icon: PropTypes.node,
-    })
-  ),
 };
