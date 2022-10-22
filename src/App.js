@@ -45,6 +45,8 @@ const SitoMUITabView = (props) => {
     tabsSx,
     contentSx,
     style,
+    icons,
+    iconsPosition,
   } = props;
 
   const [localTab, setLocalTab] = useState(0);
@@ -70,13 +72,20 @@ const SitoMUITabView = (props) => {
             onChange={onChange || localOnChange}
             sx={{ ...tabsSx }}
           >
-            {tabs.map((item, i) => (
-              <Tab component="a" href={`#${item}`} key={item} label={item} />
+            {tabs && tabs.map((item, i) => (
+              <Tab
+                key={item}
+                label={item}
+                component="a"
+                icon={icons[i] || ""}
+                href={`#${item}`}
+                iconPosition={iconsPosition[i] || "start"}
+              />
             ))}
           </Tabs>
         </Box>
       )}
-      {content.map((item, i) => (
+      {content && content.map((item, i) => (
         <TabPanel key={`tc${i}`} value={value || localTab} index={i}>
           {item}
         </TabPanel>
@@ -116,6 +125,8 @@ SitoMUITabView.defaultProps = {
   tabsSx: {},
   contentSx: {},
   style: {},
+  icon: [],
+  iconsPosition: [],
 };
 
 SitoMUITabView.propTypes = {
@@ -129,6 +140,10 @@ SitoMUITabView.propTypes = {
   tabs: PropTypes.arrayOf(PropTypes.string).isRequired,
   value: PropTypes.number,
   onChange: PropTypes.func,
+  icon: PropTypes.arrayOf(PropTypes.node),
+  iconsPosition: PropTypes.arrayOf(
+    PropTypes.oneOf(["start", "end", "bottom", "top"])
+  ),
   sx: PropTypes.oneOfType([
     PropTypes.arrayOf(
       PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
